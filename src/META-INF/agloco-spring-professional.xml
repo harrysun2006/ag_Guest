@@ -1,0 +1,304 @@
+<?xml version="1.0"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+	<!-- bean factory post processor -->
+	<bean class="com.agloco.spring.BeanFactoryAglocoProcessor"/>
+
+	<!-- counter dao -->
+	<bean id="com.agloco.service.dao.hibernate.CounterDaoHibernate" class="com.agloco.service.dao.hibernate.CounterDaoHibernate" lazy-init="true">
+		<property name="sessionFactory">
+			<ref bean="liferaySessionFactory" />
+		</property>
+	</bean>
+	<bean id="com.agloco.service.dao.util.CounterDaoUtil" class="com.agloco.service.dao.util.CounterDaoUtil" lazy-init="true">
+		<property name="counterDao">
+			<ref bean="com.agloco.service.dao.hibernate.CounterDaoHibernate" />
+		</property>
+	</bean>
+
+	<!-- member dao -->
+	<bean id="com.agloco.service.dao.hibernate.MemberDaoHibernate" class="com.agloco.service.dao.hibernate.MemberDaoHibernate" lazy-init="true">
+		<property name="sessionFactory">
+			<ref bean="liferaySessionFactory" />
+		</property>
+	</bean>
+	<bean id="com.agloco.service.dao.util.MemberDaoUtil" class="com.agloco.service.dao.util.MemberDaoUtil" lazy-init="true">
+		<property name="memberDao">
+			<ref bean="com.agloco.service.dao.hibernate.MemberDaoHibernate" />
+		</property>
+	</bean>
+
+	<!-- member tree dao -->
+	<bean id="com.agloco.service.dao.hibernate.MemberTreeDaoHibernate" class="com.agloco.service.dao.hibernate.MemberTreeDaoHibernate" lazy-init="true">
+		<property name="sessionFactory">
+			<ref bean="liferaySessionFactory" />
+		</property>
+	</bean>
+	<bean id="com.agloco.service.dao.util.MemberTreeDaoUtil" class="com.agloco.service.dao.util.MemberTreeDaoUtil" lazy-init="true">
+		<property name="memberTreeDao">
+			<ref bean="com.agloco.service.dao.hibernate.MemberTreeDaoHibernate" />
+		</property>
+	</bean>
+
+	<!-- report dao -->
+	<bean id="com.agloco.service.dao.hibernate.ReportDaoHibernate" class="com.agloco.service.dao.hibernate.ReportDaoHibernate" lazy-init="true">
+		<property name="sessionFactory">
+			<ref bean="liferaySessionFactory" />
+		</property>
+	</bean>
+	<bean id="com.agloco.service.dao.util.ReportDaoUtil" class="com.agloco.service.dao.util.ReportDaoUtil" lazy-init="true">
+		<property name="reportDao">
+			<ref bean="com.agloco.service.dao.hibernate.ReportDaoHibernate" />
+		</property>
+	</bean>
+
+	<!-- member service -->
+	<bean id="com.agloco.service.impl.MemberServiceImpl" class="com.agloco.service.impl.MemberServiceImpl"/>
+	<bean id="com.agloco.service.MemberService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean" lazy-init="true">
+		<property name="transactionManager">
+			<ref bean="liferayTransactionManager" />
+		</property>
+		<property name="target">
+			<ref bean="com.agloco.service.impl.MemberServiceImpl" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="com.agloco.service.util.MemberServiceUtil" class="com.agloco.service.util.MemberServiceUtil" lazy-init="true">
+		<property name="memberService">
+			<ref bean="com.agloco.service.MemberService" />
+		</property>
+	</bean>
+	
+	<!-- report service -->
+	<bean id="com.agloco.service.impl.ReportServiceImpl" class="com.agloco.service.impl.ReportServiceImpl"/>
+	<bean id="com.agloco.service.ReportService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean" lazy-init="true">
+		<property name="transactionManager">
+			<ref bean="liferayTransactionManager" />
+		</property>
+		<property name="target">
+			<ref bean="com.agloco.service.impl.ReportServiceImpl" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="com.agloco.service.util.ReportServiceUtil" class="com.agloco.service.util.ReportServiceUtil" lazy-init="true">
+		<property name="reportService">
+			<ref bean="com.agloco.service.ReportService" />
+		</property>
+	</bean>
+	
+	<!-- common dao and service -->
+	<bean id="com.agloco.service.dao.hibernate.CommonDaoHibernate" class="com.agloco.service.dao.hibernate.CommonDaoHibernate" lazy-init="true">
+		<property name="sessionFactory">
+			<ref bean="liferaySessionFactory" />
+		</property>
+	</bean>
+	<bean id="com.agloco.service.dao.util.CommonDaoUtil" class="com.agloco.service.dao.util.CommonDaoUtil" lazy-init="true">
+		<property name="commonDao">
+			<ref bean="com.agloco.service.dao.hibernate.CommonDaoHibernate" />
+		</property>
+	</bean>
+	
+	<bean id="com.agloco.service.impl.CommonServiceImpl" class="com.agloco.service.impl.CommonServiceImpl" lazy-init="true"/>
+	<bean id="com.agloco.service.CommonService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean" lazy-init="true">
+		<property name="transactionManager">
+			<ref bean="liferayTransactionManager" />
+		</property>
+		<property name="target">
+			<ref bean="com.agloco.service.impl.CommonServiceImpl" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="com.agloco.service.util.CommonServiceUtil" class="com.agloco.service.util.CommonServiceUtil" lazy-init="true">
+		<property name="commonService">
+			<ref bean="com.agloco.service.CommonService" />
+		</property>
+	</bean>
+
+	<!-- LogMessage dao and service -->
+	<bean id="com.agloco.service.dao.hibernate.LogMessageDaoHibernate" class="com.agloco.service.dao.hibernate.LogMessageDaoHibernate" lazy-init="true">
+		<property name="sessionFactory">
+			<ref bean="liferaySessionFactory" />
+		</property>
+	</bean>
+	<bean id="com.agloco.service.dao.util.LogMessageDaoUtil" class="com.agloco.service.dao.util.LogMessageDaoUtil" lazy-init="true">
+		<property name="logMessageDao">
+			<ref bean="com.agloco.service.dao.hibernate.LogMessageDaoHibernate" />
+		</property>
+	</bean>
+	
+	<bean id="com.agloco.service.impl.LogMessageServiceImpl" class="com.agloco.service.impl.LogMessageServiceImpl" lazy-init="true"/>
+	<bean id="com.agloco.service.LogMessageService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean" lazy-init="true">
+		<property name="transactionManager">
+			<ref bean="liferayTransactionManager" />
+		</property>
+		<property name="target">
+			<ref bean="com.agloco.service.impl.LogMessageServiceImpl" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="com.agloco.service.util.LogMessageServiceUtil" class="com.agloco.service.util.LogMessageServiceUtil" lazy-init="true">
+		<property name="logMessageService">
+			<ref bean="com.agloco.service.LogMessageService" />
+		</property>
+	</bean>
+	
+	<!-- code service -->
+	<bean id="com.agloco.service.impl.SequenceCodeServiceImpl" class="com.agloco.service.impl.SequenceCodeServiceImpl" lazy-init="true"/>
+	<bean id="com.agloco.service.CodeService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean" lazy-init="true">
+		<property name="transactionManager">
+			<ref bean="liferayTransactionManager" />
+		</property>
+		<property name="target">
+			<ref bean="com.agloco.service.impl.SequenceCodeServiceImpl" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="com.agloco.service.util.CodeServiceUtil" class="com.agloco.service.util.CodeServiceUtil" lazy-init="true">
+		<property name="codeService">
+			<ref bean="com.agloco.service.CodeService" />
+		</property>
+	</bean>
+
+	<!-- mail service -->
+	<bean id="com.agloco.service.impl.GeneralMailExcluder" class="com.agloco.service.impl.GeneralMailExcluder" lazy-init="true"/>
+	<bean id="com.agloco.service.impl.WeekTaskMailExcluder" class="com.agloco.service.impl.WeekTaskMailExcluder" lazy-init="true"/>
+	<bean id="mailCharsetFilter" class="com.agloco.mail.filter.MailCharsetFilter" lazy-init="true"/>
+	<bean id="mailTypeFilter" class="com.agloco.mail.filter.MailTypeFilter" lazy-init="true"/>
+	<bean id="com.agloco.service.impl.MailServiceImpl" class="com.agloco.service.impl.MailServiceImpl" lazy-init="true">
+		<property name="excluder">
+			<ref bean="com.agloco.service.impl.GeneralMailExcluder" />
+		</property>
+		<property name="filterList">
+			<list>
+				<ref bean="mailCharsetFilter" />
+				<ref bean="mailTypeFilter" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="com.agloco.service.MailService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean" lazy-init="true">
+		<property name="transactionManager">
+			<ref bean="liferayTransactionManager" />
+		</property>
+		<property name="target">
+			<ref bean="com.agloco.service.impl.MailServiceImpl" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="com.agloco.service.util.MailServiceUtil" class="com.agloco.service.util.MailServiceUtil">
+		<property name="mailService">
+			<ref bean="com.agloco.service.MailService" />
+		</property>
+	</bean>
+
+   <bean id="broker" class="org.activemq.spring.BrokerFactoryBean">   
+          <property name="config" value="classpath:/activemq.xml"/>  
+   </bean>
+   
+	<bean id="com.agloco.mail.MailQCF" class="org.activemq.pool.PooledConnectionFactory">
+		<property name="connectionFactory">
+			<bean class="org.activemq.ActiveMQConnectionFactory">
+				<property name="brokerURL">
+					<value>tcp://localhost:61616</value>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<bean name="com.agloco.mail.MailQueue" class="org.activemq.message.ActiveMQQueue" autowire="constructor">
+		<constructor-arg>
+			<value>com.agloco.mail.MailQueue</value>
+		</constructor-arg>
+	</bean>
+
+	<!-- viewbar datasource -->
+	<bean id="viewbarDataSourceTarget" class="com.liferay.portal.spring.jndi.JndiObjectFactoryBean" lazy-init="true">
+		<property name="jndiName">
+			<value>jdbc/ViewbarPool</value>
+		</property>
+	</bean>
+	<bean id="viewbarDataSource" class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy" lazy-init="true">
+		<property name="targetDataSource">
+			<ref bean="viewbarDataSourceTarget" />
+		</property>
+	</bean>
+	<bean id="viewbarSessionFactory" class="com.agloco.spring.VBHibernateConfiguration" lazy-init="true">
+		<property name="dataSource">
+			<ref bean="viewbarDataSource" />
+		</property>
+	</bean>
+	<bean id="viewbarTransactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager" lazy-init="true">
+		<property name="dataSource">
+			<ref bean="viewbarDataSource" />
+		</property>
+		<property name="sessionFactory">
+			<ref bean="viewbarSessionFactory" />
+		</property>
+	</bean>
+	
+	<!-- viewbar dao -->
+	<bean id="com.agloco.service.dao.hibernate.ViewbarDaoHibernate" class="com.agloco.service.dao.hibernate.ViewbarDaoHibernate" lazy-init="true">
+		<property name="sessionFactory">
+			<ref bean="viewbarSessionFactory" />
+		</property>
+	</bean>
+	<bean id="com.agloco.service.dao.util.ViewbarDaoUtil" class="com.agloco.service.dao.util.ViewbarDaoUtil" lazy-init="true">
+		<property name="viewbarDao">
+			<ref bean="com.agloco.service.dao.hibernate.ViewbarDaoHibernate" />
+		</property>
+	</bean>
+	
+	<!-- viewbar service -->
+	<bean id="com.agloco.service.impl.ViewbarServiceImpl" class="com.agloco.service.impl.ViewbarServiceImpl" lazy-init="true"/>
+	<bean id="com.agloco.service.ViewbarService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean" lazy-init="true">
+		<property name="transactionManager">
+			<ref bean="viewbarTransactionManager" />
+		</property>
+		<property name="target">
+			<ref bean="com.agloco.service.impl.ViewbarServiceImpl" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="com.agloco.service.util.ViewbarServiceUtil" class="com.agloco.service.util.ViewbarServiceUtil" lazy-init="true">
+		<property name="viewbarService">
+			<ref bean="com.agloco.service.ViewbarService" />
+		</property>
+	</bean>
+	
+</beans>

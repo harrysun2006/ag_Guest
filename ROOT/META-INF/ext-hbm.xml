@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+    
+<hibernate-mapping package="com.sample.hibernate2.po">
+	<class name="HFoodItem" table="AG_FoodItem" lazy="true" 
+		dynamic-update="true" dynamic-insert="true"
+	>
+
+	<id name="id" type="java.lang.Long" column="id">
+		<generator class="identity"></generator>
+	</id>
+
+    <property name="name" column="name"/>
+    <property name="points" column="points"/>
+	</class>
+</hibernate-mapping>
